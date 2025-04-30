@@ -1,0 +1,53 @@
+:root {
+    --primary-color: #0070f3;
+    --secondary-color: #0070f3;
+    --background-color: #ffffff;
+    --text-color: #333333;
+    --accent-color: #f8f9fa;
+  }
+  
+  * {
+    box-sizing: border-box;
+  }
+  
+  html,
+  body {
+    padding: 0;
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
+      Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+    color: var(--text-color);
+    background-color: var(--background-color);
+  }
+  
+  a {
+    color: var(--primary-color);
+    text-decoration: none;
+  }
+  
+  a:hover {
+    text-decoration: underline;
+  }
+  
+  img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    margin-top: 0;
+  }
+  
+  /* 워드프레스 콘텐츠 스타일 정리 */
+  .wp-block-image img {
+    max-width: 100%;
+    height: auto;
+  }
+  
+  .wp-block-quote {
+    border-left: 4px solid var(--primary-color);
+    padding-left: 1rem;
+    margin-left: 0;
+    font-style: italic;
+  }
