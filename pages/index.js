@@ -97,6 +97,7 @@ export default function Home({
 
 // PostCard 컴포넌트를 별도 파일로 분리 (components/PostCard.js)
 
+// pages/index.js의 getStaticProps 부분만 수정
 export async function getStaticProps() {
   try {
     // 카테고리 및 기본 게시물 가져오기
@@ -110,7 +111,7 @@ export async function getStaticProps() {
     // 추천 게시물 상세 정보 가져오기
     const featuredPosts = await getMultiplePosts(featuredPostIds);
     
-    // 인기 게시물 가져오기
+    // 인기 게시물 가져오기 (실제 게시물 데이터와 함께)
     const popularPosts = await getPopularPosts();
     
     return {
