@@ -195,3 +195,28 @@
   color: white;
   text-decoration: none;
 }
+/* styles/Home.module.css에 추가 */
+.featuredSection {
+  display: flex;
+  gap: 2rem;
+  margin-bottom: 2rem;
+}
+
+.sliderColumn {
+  flex: 2;
+}
+
+.popularColumn {
+  flex: 1;
+}
+
+@media (max-width: 768px) {
+  .featuredSection {
+    flex-direction: column;
+  }
+  
+  .sliderColumn,
+  .popularColumn {
+    flex: 1;
+  }
+}
