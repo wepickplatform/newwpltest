@@ -1,0 +1,92 @@
+.post {
+    max-width: 800px;
+    margin: 0 auto;
+    background-color: white;
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .header {
+    margin-bottom: 2rem;
+  }
+  
+  .header h1 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+  }
+  
+  .meta {
+    font-size: 0.9rem;
+    color: #666;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+  
+  .featuredImage {
+    margin-bottom: 2rem;
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  
+  .content {
+    line-height: 1.8;
+    font-size: 1.1rem;
+  }
+  
+  .content h2,
+  .content h3,
+  .content h4 {
+    margin-top: 2rem;
+  }
+  
+  .content p {
+    margin-bottom: 1.5rem;
+  }
+  
+  .content img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 4px;
+    margin: 1.5rem 0;
+  }
+  
+  .content a {
+    color: var(--primary-color);
+    text-decoration: underline;
+  }
+  
+  .loading {
+    text-align: center;
+    padding: 3rem 0;
+    font-size: 1.2rem;
+  }
+  
+  .error {
+    text-align: center;
+    padding: 3rem 0;
+  }
+  
+  /* 워드프레스 콘텐츠 스타일 조정 */
+  .content .wp-block-image {
+    margin: 2rem 0;
+  }
+  
+  .content .wp-block-quote {
+    border-left: 4px solid var(--primary-color);
+    padding-left: 1.5rem;
+    font-style: italic;
+    margin-left: 0;
+    color: #555;
+  }
+  
+  @media (max-width: 768px) {
+    .post {
+      padding: 1.5rem;
+    }
+    
+    .header h1 {
+      font-size: 2rem;
+    }
+  }
