@@ -36,6 +36,7 @@ export default function FeaturedSlider({ posts }) {
       <div className={styles.slider}>
         {posts.map((post, index) => {
           const featuredMedia = post._embedded?.['wp:featuredmedia']?.[0];
+          const imageUrl = featuredMedia?.source_url;
           
           return (
             <div
@@ -44,18 +45,20 @@ export default function FeaturedSlider({ posts }) {
             >
               <Link href={`/post/${post.slug}`}>
                 <a className={styles.slideLink}>
-                  {featuredMedia && featuredMedia.source_url ? (
+                  {imageUrl ? (
                     <div className={styles.imageWrapper}>
                       <Image
-                        src={featuredMedia.source_url}
-                        alt={post.title.rendered}
+                        src={imageUrl}
+                        alt={post.title.rendered || '게시물 이미지'}
                         layout="fill"
                         objectFit="cover"
                         priority={index === currentSlide}
                       />
                     </div>
                   ) : (
-                    <div className={styles.noImage}>이미지 없음</div>
+                    <div className={styles.noImage}>
+                      <div className={styles.noImageText}>이미지 없음</div>
+                    </div>
                   )}
                   <div className={styles.slideContent}>
                     <h2 dangerouslySetInnerHTML={{ __html: post.title.rendered }} />
@@ -67,10 +70,10 @@ export default function FeaturedSlider({ posts }) {
         })}
       </div>
       
-      <button className={styles.prevButton} onClick={prevSlide}>
+      <button className={styles.prevButton} onClick={prevSlide} aria-label="이전 슬라이드">
         <span>&lt;</span>
       </button>
-      <button className={styles.nextButton} onClick={nextSlide}>
+      <button className={styles.nextButton} onClick={nextSlide} aria-label="다음 슬라이드">
         <span>&gt;</span>
       </button>
       
@@ -80,6 +83,7 @@ export default function FeaturedSlider({ posts }) {
             key={index}
             className={`${styles.indicator} ${index === currentSlide ? styles.active : ''}`}
             onClick={() => goToSlide(index)}
+            aria-label={`슬라이드 ${index + 1} 보기`}
           />
         ))}
       </div>
