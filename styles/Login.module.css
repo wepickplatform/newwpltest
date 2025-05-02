@@ -1,0 +1,35 @@
+/* styles/Login.module.css */
+.container {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  background-color: #f5f5f5;
+}
+
+.card {
+  width: 100%;
+  max-width: 400px;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+.links {
+  padding: 1rem 1.5rem;
+  border-top: 1px solid #eee;
+  text-align: center;
+}
+
+.link {
+  color: #0070f3;
+  font-size: 0.9rem;
+}
+
+.loading {
+  text-align: center;
+  font-size: 1rem;
+  color: #666;
+}
