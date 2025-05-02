@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { getCategories } from '../lib/api';
 import { useAuth } from '../lib/auth';
 import styles from '../styles/Header.module.css';
+import Image from 'next/image';
 
 export default function Header() {
   const [categories, setCategories] = useState([]);
@@ -27,9 +28,17 @@ export default function Header() {
     <header className={styles.header}>
       <div className={styles.headerContainer}>
         <div className={styles.logo}>
-          <Link href="/">
-            <a>Letter WePickr</a>
-          </Link>
+            <Link href="/">
+    <a>
+      <Image 
+        src="/images/logo.png" 
+        alt="Letter WePickr 로고" 
+        width={150} 
+        height={40} 
+        priority
+      />
+    </a>
+  </Link>
         </div>
         
         <nav className={styles.desktopNav}>
