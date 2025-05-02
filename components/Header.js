@@ -12,8 +12,12 @@ export default function Header() {
   
   useEffect(() => {
     async function loadCategories() {
-      const fetchedCategories = await getCategories();
-      setCategories(fetchedCategories);
+      try {
+        const fetchedCategories = await getCategories();
+        setCategories(fetchedCategories);
+      } catch (error) {
+        console.error('카테고리 로딩 오류:', error);
+      }
     }
     
     loadCategories();
@@ -21,12 +25,29 @@ export default function Header() {
   
   return (
     <header className={styles.header}>
-      <div className={styles.headerContent}>
+      <div className={styles.headerContainer}>
         <div className={styles.logo}>
           <Link href="/">
             <a>Letter WePickr</a>
           </Link>
         </div>
+        
+        <nav className={styles.desktopNav}>
+          <ul className={styles.navList}>
+            <li className={styles.navItem}>
+              <Link href="/">
+                <a>홈</a>
+              </Link>
+            </li>
+            {categories.map(category => (
+              <li key={category.id} className={styles.navItem}>
+                <Link href={`/category/${category.slug}`}>
+                  <a>{category.name}</a>
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </nav>
         
         <div className={styles.headerRight}>
           {!loading && (
@@ -50,28 +71,30 @@ export default function Header() {
           <button 
             className={styles.menuButton} 
             onClick={() => setMenuOpen(!menuOpen)}
+            aria-label="메뉴 열기"
           >
-            메뉴
+            <span className={styles.menuIcon}></span>
           </button>
         </div>
       </div>
       
-      <nav className={`${styles.nav} ${menuOpen ? styles.open : ''}`}>
-        <ul>
-          <li>
+      {/* 모바일 메뉴 */}
+      <div className={`${styles.mobileNav} ${menuOpen ? styles.open : ''}`}>
+        <ul className={styles.mobileNavList}>
+          <li className={styles.mobileNavItem}>
             <Link href="/">
               <a>홈</a>
             </Link>
           </li>
           {categories.map(category => (
-            <li key={category.id}>
+            <li key={category.id} className={styles.mobileNavItem}>
               <Link href={`/category/${category.slug}`}>
                 <a>{category.name}</a>
               </Link>
             </li>
           ))}
         </ul>
-      </nav>
+      </div>
     </header>
   );
 }
