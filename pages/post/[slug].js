@@ -1,3 +1,4 @@
+// pages/post/[slug].js
 import { useRouter } from 'next/router';
 import Image from 'next/image';
 import moment from 'moment';
@@ -21,6 +22,12 @@ export default function Post({ post }) {
         <div className={styles.error}>
           <h1>포스트를 찾을 수 없습니다</h1>
           <p>요청하신 포스트가 존재하지 않습니다.</p>
+          <button 
+            onClick={() => router.push('/')}
+            className={styles.button}
+          >
+            홈으로 돌아가기
+          </button>
         </div>
       </Layout>
     );
@@ -66,31 +73,54 @@ export default function Post({ post }) {
 }
 
 export async function getStaticPaths() {
-  const posts = await getPosts(1, 100);
-  
-  const paths = posts.map(post => ({
-    params: { slug: post.slug }
-  }));
-  
-  return {
-    paths,
-    fallback: 'blocking'
-  };
+  try {
+    const posts = await getPosts(1, 10); // 처음 10개만 사전 생성
+    
+    // 게시물이 없는 경우 빈 경로 배열 반환
+    if (!posts || posts.length === 0) {
+      return {
+        paths: [],
+        fallback: 'blocking'
+      };
+    }
+    
+    const paths = posts.map(post => ({
+      params: { slug: post.slug }
+    }));
+    
+    return {
+      paths,
+      fallback: 'blocking'
+    };
+  } catch (error) {
+    console.error('경로 생성 오류:', error);
+    return {
+      paths: [],
+      fallback: 'blocking'
+    };
+  }
 }
 
 export async function getStaticProps({ params }) {
-  const post = await getPost(params.slug);
-  
-  if (!post) {
+  try {
+    const post = await getPost(params.slug);
+    
+    if (!post) {
+      return {
+        notFound: true,
+      };
+    }
+    
+    return {
+      props: {
+        post,
+      },
+      revalidate: 60, // 1분마다 재생성
+    };
+  } catch (error) {
+    console.error('게시물 데이터 가져오기 오류:', error);
     return {
       notFound: true,
     };
   }
-  
-  return {
-    props: {
-      post,
-    },
-    revalidate: 60, // 1분마다 재생성
-  };
 }
