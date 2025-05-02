@@ -1,63 +1,14 @@
-import { useState } from 'react';
-import Layout from '../components/Layout';
-import PostCard from '../components/PostCard';
-import { getPosts, getTotalPosts } from '../lib/api';
-import styles from '../styles/Home.module.css';
-
-export default function Home({ initialPosts, totalPosts }) {
-  const [posts, setPosts] = useState(initialPosts);
-  const [page, setPage] = useState(1);
-  const [loading, setLoading] = useState(false);
-  
-  const postsPerPage = 10;
-  const totalPages = Math.ceil(totalPosts / postsPerPage);
-  
-  const loadMorePosts = async () => {
-    setLoading(true);
-    const nextPage = page + 1;
-    const newPosts = await getPosts(nextPage);
-    
-    setPosts([...posts, ...newPosts]);
-    setPage(nextPage);
-    setLoading(false);
-  };
-  
+export default function Home() {
   return (
-    <Layout title="Letter WePickr | 홈">
-      <div className={styles.container}>
-        <h1 className={styles.title}>최신 포스트</h1>
-        
-        <div className={styles.grid}>
-          {posts.map(post => (
-            <PostCard key={post.id} post={post} />
-          ))}
-        </div>
-        
-        {page < totalPages && (
-          <div className={styles.loadMore}>
-            <button 
-              onClick={loadMorePosts} 
-              disabled={loading}
-              className={styles.button}
-            >
-              {loading ? '로딩 중...' : '더 보기'}
-            </button>
-          </div>
-        )}
-      </div>
-    </Layout>
+    <div style={{ 
+      padding: '40px', 
+      maxWidth: '800px', 
+      margin: '0 auto',
+      fontFamily: 'system-ui, sans-serif'
+    }}>
+      <h1>Letter WePickr</h1>
+      <p>Next.js가 성공적으로 배포되었습니다!</p>
+      <p>이제 워드프레스 헤드리스 기능을 추가할 수 있습니다.</p>
+    </div>
   );
-}
-
-export async function getStaticProps() {
-  const initialPosts = await getPosts(1);
-  const totalPosts = await getTotalPosts();
-  
-  return {
-    props: {
-      initialPosts,
-      totalPosts,
-    },
-    revalidate: 60, // 1분마다 재생성
-  };
 }
