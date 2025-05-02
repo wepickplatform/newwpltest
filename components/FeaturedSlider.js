@@ -34,40 +34,46 @@ export default function FeaturedSlider({ posts }) {
   return (
     <div className={styles.sliderContainer}>
       <div className={styles.slider}>
-        {posts.map((post, index) => {
-          const featuredMedia = post._embedded?.['wp:featuredmedia']?.[0];
-          const imageUrl = featuredMedia?.source_url;
-          
-          return (
-            <div
-              key={post.id}
-              className={`${styles.slide} ${index === currentSlide ? styles.active : ''}`}
-            >
-              <Link href={`/post/${post.slug}`}>
-                <a className={styles.slideLink}>
-                  {imageUrl ? (
-                    <div className={styles.imageWrapper}>
-                      <Image
-                        src={imageUrl}
-                        alt={post.title.rendered || '게시물 이미지'}
-                        layout="fill"
-                        objectFit="cover"
-                        priority={index === currentSlide}
-                      />
-                    </div>
-                  ) : (
-                    <div className={styles.noImage}>
-                      <div className={styles.noImageText}>이미지 없음</div>
-                    </div>
-                  )}
-                  <div className={styles.slideContent}>
-                    <h2 dangerouslySetInnerHTML={{ __html: post.title.rendered }} />
-                  </div>
-                </a>
-              </Link>
+        // components/FeaturedSlider.js의 이미지 표시 부분 수정
+{posts.map((post, index) => {
+  const featuredMedia = post._embedded?.['wp:featuredmedia']?.[0];
+  const imageUrl = featuredMedia?.source_url;
+  
+  console.log(`Post ${index} (ID: ${post.id}) image URL:`, imageUrl);
+  
+  return (
+    <div
+      key={post.id}
+      className={`${styles.slide} ${index === currentSlide ? styles.active : ''}`}
+    >
+      <Link href={`/post/${post.slug}`}>
+        <a className={styles.slideLink}>
+          {imageUrl ? (
+            <div className={styles.imageWrapper}>
+              <Image
+                src={imageUrl}
+                alt={post.title.rendered || '게시물 이미지'}
+                width={1200}
+                height={600}
+                layout="responsive"
+                objectFit="cover"
+                priority={index === currentSlide}
+                onError={() => console.error(`Image load error for post ${post.id}`)}
+              />
             </div>
-          );
-        })}
+          ) : (
+            <div className={styles.noImage}>
+              <div className={styles.noImageText}>이미지 없음</div>
+            </div>
+          )}
+          <div className={styles.slideContent}>
+            <h2 dangerouslySetInnerHTML={{ __html: post.title.rendered }} />
+          </div>
+        </a>
+      </Link>
+    </div>
+  );
+})}
       </div>
       
       <button className={styles.prevButton} onClick={prevSlide} aria-label="이전 슬라이드">
