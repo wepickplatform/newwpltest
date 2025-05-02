@@ -1,83 +1,53 @@
+/* styles/Header.module.css */
 .header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 1rem;
-    background-color: var(--accent-color);
-    border-bottom: 1px solid #eaeaea;
-  }
-  
-  .logo a {
-    font-size: 1.5rem;
-    font-weight: bold;
-    color: var(--primary-color);
-  }
-  
-  .nav ul {
-    display: flex;
-    list-style: none;
-    padding: 0;
-    margin: 0;
-  }
-  
-  .nav li {
-    margin-left: 1.5rem;
-  }
-  
-  .nav a {
-    color: var(--text-color);
-    transition: color 0.3s ease;
-  }
-  
-  .nav a:hover {
-    color: var(--primary-color);
-  }
-  
-  .menuButton {
-    display: none;
-    background: none;
-    border: none;
-    font-size: 1rem;
-    cursor: pointer;
-  }
-  
-  @media (max-width: 768px) {
-    .header {
-      flex-wrap: wrap;
-    }
-    
-    .menuButton {
-      display: block;
-    }
-    
-    .nav {
-      width: 100%;
-      max-height: 0;
-      overflow: hidden;
-      transition: max-height 0.3s ease;
-    }
-    
-    .nav.open {
-      max-height: 300px;
-    }
-    
-    .nav ul {
-      flex-direction: column;
-      margin-top: 1rem;
-    }
-    
-    .nav li {
-      margin: 0.5rem 0;
-      margin-left: 0;
-    }
-  }
+  background-color: white;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
 
-/* 기존 styles/Header.module.css에 추가 */
-.headerContent {
+.headerContainer {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  width: 100%;
+  padding: 1rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.logo a {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #0070f3;
+  text-decoration: none;
+}
+
+.desktopNav {
+  flex: 1;
+  margin: 0 2rem;
+}
+
+.navList {
+  display: flex;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.navItem {
+  margin: 0 1rem;
+}
+
+.navItem a {
+  color: #333;
+  text-decoration: none;
+  font-size: 1rem;
+  transition: color 0.3s;
+}
+
+.navItem a:hover {
+  color: #0070f3;
 }
 
 .headerRight {
@@ -127,10 +97,84 @@
 
 .loginButton:hover {
   background-color: #0060df;
+}
+
+.menuButton {
+  display: none;
+  background: none;
+  border: none;
+  width: 30px;
+  height: 30px;
+  position: relative;
+  cursor: pointer;
+}
+
+.menuIcon,
+.menuIcon::before,
+.menuIcon::after {
+  content: '';
+  display: block;
+  position: absolute;
+  height: 3px;
+  width: 100%;
+  background-color: #333;
+  transition: all 0.3s;
+}
+
+.menuIcon {
+  top: 13px;
+}
+
+.menuIcon::before {
+  top: -8px;
+}
+
+.menuIcon::after {
+  bottom: -8px;
+}
+
+.mobileNav {
+  display: none;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease;
+  background-color: white;
+}
+
+.mobileNav.open {
+  max-height: 300px;
+}
+
+.mobileNavList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.mobileNavItem {
+  padding: 0.75rem 1rem;
+  border-top: 1px solid #eee;
+}
+
+.mobileNavItem a {
+  color: #333;
   text-decoration: none;
+  display: block;
 }
 
 @media (max-width: 768px) {
+  .desktopNav {
+    display: none;
+  }
+  
+  .menuButton {
+    display: block;
+  }
+  
+  .mobileNav {
+    display: block;
+  }
+  
   .userInfo {
     font-size: 0.8rem;
   }
