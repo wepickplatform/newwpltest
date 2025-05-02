@@ -1,13 +1,13 @@
 // pages/index.js
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import moment from 'moment';
 import 'moment/locale/ko';
-import { getPosts, getTotalPosts } from '../lib/api';
+import { getPosts, getTotalPosts, getCategories } from '../lib/api';
 import styles from '../styles/Home.module.css';
 
-export default function Home({ initialPosts, totalPosts }) {
+export default function Home({ initialPosts, totalPosts, categories }) {
   const [posts, setPosts] = useState(initialPosts);
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(false);
@@ -30,6 +30,18 @@ export default function Home({ initialPosts, totalPosts }) {
       <header className={styles.header}>
         <h1 className={styles.title}>Letter WePickr</h1>
         <p className={styles.description}>워드프레스 헤드리스 사이트</p>
+        
+        <nav className={styles.nav}>
+          <ul className={styles.categoryList}>
+            {categories.map(category => (
+              <li key={category.id} className={styles.categoryItem}>
+                <Link href={`/category/${category.slug}`}>
+                  <a className={styles.categoryLink}>{category.name}</a>
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </nav>
       </header>
       
       <main className={styles.main}>
@@ -113,11 +125,13 @@ export async function getStaticProps() {
   try {
     const initialPosts = await getPosts(1);
     const totalPosts = await getTotalPosts();
+    const categories = await getCategories();
     
     return {
       props: {
         initialPosts: initialPosts || [],
         totalPosts: totalPosts || 0,
+        categories: categories || [],
       },
       revalidate: 60, // 1분마다 재생성
     };
@@ -127,6 +141,7 @@ export async function getStaticProps() {
       props: {
         initialPosts: [],
         totalPosts: 0,
+        categories: [],
       },
       revalidate: 60,
     };
