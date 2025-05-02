@@ -1,0 +1,46 @@
+/* styles/CommentList.module.css */
+.commentList {
+  margin-top: 1rem;
+}
+
+.comment {
+  padding: 1rem;
+  border-bottom: 1px solid #eee;
+}
+
+.comment:last-child {
+  border-bottom: none;
+}
+
+.commentHeader {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
+  font-size: 0.9rem;
+}
+
+.author {
+  font-weight: bold;
+  color: #333;
+}
+
+.date {
+  color: #777;
+}
+
+.content {
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+.content p {
+  margin: 0;
+}
+
+.noComments {
+  padding: 2rem;
+  text-align: center;
+  color: #666;
+  background-color: #f9f9f9;
+  border-radius: 4px;
+}
