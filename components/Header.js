@@ -1,10 +1,10 @@
 // components/Header.js
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import Image from 'next/image'; // 이미지 임포트 추가
 import { getCategories } from '../lib/api';
 import { useAuth } from '../lib/auth';
 import styles from '../styles/Header.module.css';
-import Image from 'next/image';
 
 export default function Header() {
   const [categories, setCategories] = useState([]);
@@ -28,17 +28,17 @@ export default function Header() {
     <header className={styles.header}>
       <div className={styles.headerContainer}>
         <div className={styles.logo}>
-            <Link href="/">
-    <a>
-      <Image 
-        src="/images/logo.png" 
-        alt="Letter WePickr 로고" 
-        width={150} 
-        height={40} 
-        priority
-      />
-    </a>
-  </Link>
+          <Link href="/">
+            <a>
+              <Image 
+                src="/images/logo.png" 
+                alt="Letter WePickr 로고" 
+                width={150} 
+                height={40} 
+                priority
+              />
+            </a>
+          </Link>
         </div>
         
         <nav className={styles.desktopNav}>
