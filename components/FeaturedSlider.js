@@ -35,11 +35,19 @@ export default function FeaturedSlider({ posts }) {
     <div className={styles.sliderContainer}>
       <div className={styles.slider}>
         // components/FeaturedSlider.js의 이미지 표시 부분 수정
+// components/FeaturedSlider.js의 이미지 표시 부분 수정
 {posts.map((post, index) => {
+  // 먼저 main_img를 사용하고, 없으면 featured media로 폴백
+  const mainImg = post.main_img;
   const featuredMedia = post._embedded?.['wp:featuredmedia']?.[0];
-  const imageUrl = featuredMedia?.source_url;
+  const featuredImgUrl = featuredMedia?.source_url;
   
-  console.log(`Post ${index} (ID: ${post.id}) image URL:`, imageUrl);
+  // 둘 중 하나를 사용
+  const imageUrl = mainImg || featuredImgUrl;
+  
+  console.log(`Post ${index} (ID: ${post.id}) main_img:`, mainImg);
+  console.log(`Post ${index} (ID: ${post.id}) featured image:`, featuredImgUrl);
+  console.log(`Post ${index} (ID: ${post.id}) using image:`, imageUrl);
   
   return (
     <div
@@ -58,7 +66,11 @@ export default function FeaturedSlider({ posts }) {
                 layout="responsive"
                 objectFit="cover"
                 priority={index === currentSlide}
-                onError={() => console.error(`Image load error for post ${post.id}`)}
+                onError={(e) => {
+                  console.error(`Image load error for post ${post.id}:`, e);
+                  // 이미지 로드 실패 시 기본 이미지로 대체 (필요시)
+                  // e.target.src = '/images/default.jpg';
+                }}
               />
             </div>
           ) : (
