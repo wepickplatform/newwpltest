@@ -1,35 +1,47 @@
-// pages/post/[slug].js
+// pages/post/[slug].js 수정
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
+import Link from 'next/link';
 import moment from 'moment';
 import 'moment/locale/ko';
-import Layout from '../../components/Layout';
-import { getPost, getPosts } from '../../lib/api';
+import { getPost, getPosts, getComments } from '../../lib/api';
+import Header from '../../components/Header';
+import CommentList from '../../components/CommentList';
+import CommentForm from '../../components/CommentForm';
 import styles from '../../styles/Post.module.css';
 
-export default function Post({ post }) {
+export default function Post({ post, initialComments }) {
   const router = useRouter();
+  const [comments, setComments] = useState(initialComments || []);
   
   // 페이지 내용이 아직 생성되지 않았을 때
   if (router.isFallback) {
-    return <Layout><div className={styles.loading}>로딩 중...</div></Layout>;
+    return (
+      <div className={styles.container}>
+        <Header />
+        <main className={styles.main}>
+          <div className={styles.loading}>로딩 중...</div>
+        </main>
+      </div>
+    );
   }
   
   // 포스트를 찾을 수 없을 때
   if (!post) {
     return (
-      <Layout title="포스트를 찾을 수 없습니다">
-        <div className={styles.error}>
-          <h1>포스트를 찾을 수 없습니다</h1>
-          <p>요청하신 포스트가 존재하지 않습니다.</p>
-          <button 
-            onClick={() => router.push('/')}
-            className={styles.button}
-          >
-            홈으로 돌아가기
-          </button>
-        </div>
-      </Layout>
+      <div className={styles.container}>
+        <Header />
+        <main className={styles.main}>
+          <div className={styles.error}>
+            <h1>포스트를 찾을 수 없습니다</h1>
+            <p>요청하신 포스트가 존재하지 않습니다.</p>
+            <Link href="/">
+              <a className={styles.backLink}>홈으로 돌아가기</a>
+            </Link>
+          </div>
+        </main>
+      </div>
     );
   }
   
@@ -39,44 +51,65 @@ export default function Post({ post }) {
   moment.locale('ko');
   const formattedDate = moment(post.date).format('YYYY년 MM월 DD일');
   
+  // 새 댓글이 추가되면 댓글 목록 업데이트
+  const handleCommentAdded = (newComment) => {
+    setComments([...comments, newComment]);
+  };
+  
   return (
-    <Layout title={`${post.title.rendered} | Letter WePickr`}>
-      <article className={styles.post}>
-        <header className={styles.header}>
-          <h1 dangerouslySetInnerHTML={{ __html: post.title.rendered }} />
+    <div className={styles.container}>
+      <Header />
+      
+      <main className={styles.main}>
+        <article className={styles.post}>
+          <header className={styles.postHeader}>
+            <h1 dangerouslySetInnerHTML={{ __html: post.title.rendered }} />
+            
+            <div className={styles.meta}>
+              {author && <span>작성자: {author.name}</span>}
+              <span>작성일: {formattedDate}</span>
+            </div>
+          </header>
           
-          <div className={styles.meta}>
-            {author && <span>작성자: {author.name}</span>}
-            <span>작성일: {formattedDate}</span>
-          </div>
-        </header>
+          {featuredMedia && featuredMedia.source_url && (
+            <div className={styles.featuredImage}>  
+              <Image
+                src={featuredMedia.source_url}
+                alt={post.title.rendered}
+                width={1200}
+                height={630}
+                layout="responsive"
+              />
+            </div>
+          )}
+          
+          <div 
+            className={styles.content}
+            dangerouslySetInnerHTML={{ __html: post.content.rendered }}
+          />
+        </article>
         
-        {featuredMedia && featuredMedia.source_url && (
-          <div className={styles.featuredImage}>  
-            <Image
-              src={featuredMedia.source_url}
-              alt={post.title.rendered}
-              width={1200}
-              height={630}
-              layout="responsive"
-            />
-          </div>
-        )}
-        
-        <div 
-          className={styles.content}
-          dangerouslySetInnerHTML={{ __html: post.content.rendered }}
-        />
-      </article>
-    </Layout>
+        <section className={styles.commentSection}>
+          <h2 className={styles.commentTitle}>댓글</h2>
+          <CommentList comments={comments} />
+          <CommentForm 
+            postId={post.id} 
+            onCommentAdded={handleCommentAdded} 
+          />
+        </section>
+      </main>
+      
+      <footer className={styles.footer}>
+        <p>© {new Date().getFullYear()} Letter WePickr - 워드프레스 헤드리스 사이트</p>
+      </footer>
+    </div>
   );
 }
 
 export async function getStaticPaths() {
   try {
-    const posts = await getPosts(1, 10); // 처음 10개만 사전 생성
+    const posts = await getPosts(1, 10);
     
-    // 게시물이 없는 경우 빈 경로 배열 반환
     if (!posts || posts.length === 0) {
       return {
         paths: [],
@@ -111,9 +144,13 @@ export async function getStaticProps({ params }) {
       };
     }
     
+    // 댓글 가져오기
+    const comments = await getComments(post.id);
+    
     return {
       props: {
         post,
+        initialComments: comments || []
       },
       revalidate: 60, // 1분마다 재생성
     };
