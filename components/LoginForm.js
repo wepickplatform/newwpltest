@@ -1,5 +1,6 @@
 // components/LoginForm.js
 import { useState } from 'react';
+import { useRouter } from 'next/router';
 import { useAuth } from '../lib/auth';
 import styles from '../styles/LoginForm.module.css';
 
@@ -10,6 +11,8 @@ export default function LoginForm() {
   const [isLoading, setIsLoading] = useState(false);
   
   const { login } = useAuth();
+  const router = useRouter();
+  const { redirect } = router.query;
   
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -18,9 +21,8 @@ export default function LoginForm() {
     
     try {
       await login(username, password);
-      // 로그인 성공
-      setUsername('');
-      setPassword('');
+      // 로그인 성공 후 리다이렉트
+      router.push(redirect || '/');
     } catch (error) {
       setError(error.message || '로그인에 실패했습니다. 다시 시도해주세요.');
     } finally {
