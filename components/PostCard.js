@@ -1,4 +1,4 @@
-// components/PostCard.js - 설명 부분 제거
+// components/PostCard.js - 수정된 버전
 import Link from 'next/link';
 import Image from 'next/image';
 import moment from 'moment';
@@ -26,8 +26,9 @@ export default function PostCard({ post }) {
                   src={imageUrl}
                   alt={post.title.rendered}
                   width={400}
-                  height={240}
+                  height={225}
                   layout="responsive"
+                  objectFit="cover"
                   className={styles.image}
                 />
               </div>
@@ -46,20 +47,13 @@ export default function PostCard({ post }) {
             
             <div className={styles.cardMeta}>
               {author && (
-                <span className={styles.author}>
-                  <span className={styles.metaIcon}>👤</span> {author.name}
-                </span>
+                <span className={styles.author}>{author.name}</span>
               )}
-              <span className={styles.date}>
-                <span className={styles.metaIcon}>📅</span> {formattedDate}
-              </span>
+              {author && <span className={styles.metaSeparator}>·</span>}
+              <span className={styles.date}>{formattedDate}</span>
             </div>
             
-            {/* 설명(excerpt) 부분 제거 */}
-            
-            <span className={styles.readMore}>
-              자세히 보기 <span className={styles.arrow}>→</span>
-            </span>
+            {/* "자세히 보기" 텍스트 삭제 */}
           </div>
         </a>
       </Link>
