@@ -12,22 +12,31 @@ export default function PostCard({ post }) {
   const featuredMedia = post._embedded?.['wp:featuredmedia']?.[0];
   const author = post._embedded?.['author']?.[0];
   
+  // 대표 이미지 URL 또는 main_img
+  const imageUrl = post.main_img || (featuredMedia?.source_url || null);
+  
   return (
-    <div className={styles.card}>
+    <article className={styles.card}>
       <Link href={`/post/${post.slug}`}>
         <a className={styles.cardLink}>
-          {featuredMedia && featuredMedia.source_url && (
-            <div className={styles.imageContainer}>
-              <Image
-                src={featuredMedia.source_url}
-                alt={post.title.rendered}
-                width={300}
-                height={200}
-                layout="responsive"
-                className={styles.image}
-              />
-            </div>
-          )}
+          <div className={styles.cardMedia}>
+            {imageUrl ? (
+              <div className={styles.imageContainer}>
+                <Image
+                  src={imageUrl}
+                  alt={post.title.rendered}
+                  width={400}
+                  height={240}
+                  layout="responsive"
+                  className={styles.image}
+                />
+              </div>
+            ) : (
+              <div className={styles.noImage}>
+                <span className={styles.noImageText}>이미지 없음</span>
+              </div>
+            )}
+          </div>
           
           <div className={styles.cardContent}>
             <h3 
@@ -36,8 +45,14 @@ export default function PostCard({ post }) {
             />
             
             <div className={styles.cardMeta}>
-              {author && <span>작성자: {author.name}</span>}
-              <span>작성일: {formattedDate}</span>
+              {author && (
+                <span className={styles.author}>
+                  <span className={styles.metaIcon}>👤</span> {author.name}
+                </span>
+              )}
+              <span className={styles.date}>
+                <span className={styles.metaIcon}>📅</span> {formattedDate}
+              </span>
             </div>
             
             <div 
@@ -45,10 +60,12 @@ export default function PostCard({ post }) {
               dangerouslySetInnerHTML={{ __html: post.excerpt.rendered }}
             />
             
-            <span className={styles.readMore}>자세히 보기</span>
+            <span className={styles.readMore}>
+              자세히 보기 <span className={styles.arrow}>→</span>
+            </span>
           </div>
         </a>
       </Link>
-    </div>
+    </article>
   );
 }
