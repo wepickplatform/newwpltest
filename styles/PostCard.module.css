@@ -1,18 +1,12 @@
-/* styles/PostCard.module.css 수정 - 호버 효과 및 그림자 제거 */
+/* styles/PostCard.module.css - 수정된 버전 */
 .card {
   border-radius: var(--border-radius);
   overflow: hidden;
-  box-shadow: none; /* 그림자 제거 */
-  transition: none; /* 호버 효과 제거 */
+  box-shadow: none;
   background: var(--background-color);
   height: 100%;
   display: flex;
-  border: 1px solid var(--border-color); /* 그림자 대신 테두리 추가 */
-}
-
-.card:hover {
-  transform: none; /* 호버 시 변환 효과 제거 */
-  box-shadow: none; /* 호버 시 그림자 효과 제거 */
+  border: 1px solid var(--border-color);
 }
 
 .cardLink {
@@ -31,33 +25,86 @@
 .imageContainer {
   width: 100%;
   position: relative;
+  /* 이미지 비율 고정을 위한 패딩 */
+  height: 0;
+  padding-bottom: 56.25%; /* 16:9 비율 고정 */
   overflow: hidden;
 }
 
 .image {
-  transition: none; /* 이미지 확대 효과 제거 */
   object-fit: cover;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
 }
 
-.card:hover .image {
-  transform: none; /* 호버 시 이미지 확대 효과 제거 */
+.noImage {
+  width: 100%;
+  height: 0;
+  padding-bottom: 56.25%; /* 16:9 비율로 높이 고정 */
+  background-color: var(--secondary-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
 }
 
-/* PostCard 컴포넌트에서 cardExcerpt 제거 (설명 부분) */
-.cardExcerpt {
-  display: none; /* 설명 텍스트 숨김 */
+.noImageText {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: var(--text-light);
+  font-size: 0.9rem;
 }
 
-/* 호버 시 화살표 효과 제거 */
-.card:hover .readMore {
-  gap: 0.5rem; /* 원래 간격 유지 */
+.cardContent {
+  padding: 1.25rem;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
 }
 
-.card:hover .arrow {
-  transform: none; /* 화살표 이동 효과 제거 */
+.cardTitle {
+  font-size: 1.1rem;
+  margin-top: 0;
+  margin-bottom: 0.75rem;
+  line-height: 1.4;
+  color: var(--text-color);
 }
 
-/* 호버 시 제목 색상 변경 제거 */
-.card:hover .cardTitle {
-  color: var(--text-color); /* 원래 색상 유지 */
+.cardMeta {
+  display: flex;
+  align-items: center;
+  font-size: 0.85rem;
+  color: var(--text-light);
+}
+
+.author, .date {
+  display: inline;
+}
+
+.metaSeparator {
+  margin: 0 0.5rem;
+}
+
+/* 자세히 보기 삭제로 인한 스타일 제거 */
+.readMore {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .cardTitle {
+    font-size: 1rem;
+  }
+  
+  .cardContent {
+    padding: 1rem;
+  }
+  
+  .cardMeta {
+    font-size: 0.8rem;
+  }
 }
