@@ -1,6 +1,7 @@
 /* styles/globals.css */
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap');
 
+/* styles/globals.css에서 그림자 관련 변수 수정 */
 :root {
   --primary-color: #004e84;
   --primary-light: #2a6fa3;
@@ -11,8 +12,8 @@
   --text-light: #7f8c8d;
   --background-color: #ffffff;
   --border-color: #e1e8ed;
-  --card-shadow: 0 4px 12px rgba(0, 78, 132, 0.08);
-  --hover-shadow: 0 8px 20px rgba(0, 78, 132, 0.12);
+  --card-shadow: none; /* 그림자 제거 */
+  --hover-shadow: none; /* 호버 그림자 제거 */
   --container-width: 1200px;
   --header-height: 70px;
   --border-radius: 8px;
