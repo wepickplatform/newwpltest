@@ -1,18 +1,15 @@
-/* styles/PostCard.module.css - 수정된 버전 */
+/* styles/PostCard.module.css - 완전히 수정된 버전 */
 .card {
   border-radius: var(--border-radius);
   overflow: hidden;
-  box-shadow: none;
   background: var(--background-color);
-  height: 100%; /* 높이는 100% 유지 */
-  width: 100%; /* 너비도 100% 유지 */
-  display: flex;
   border: 1px solid var(--border-color);
+  display: block; /* flex 대신 block으로 변경 */
+  width: 100%;
 }
 
 .cardLink {
-  display: flex;
-  flex-direction: column;
+  display: block; /* flex 대신 block으로 변경 */
   width: 100%;
   color: inherit;
   text-decoration: none;
@@ -22,10 +19,11 @@
   position: relative;
   width: 100%;
   height: 220px; /* 모든 이미지 높이를 동일하게 고정 */
+  display: block;
 }
 
 .image {
-  object-fit: cover; /* 이미지가 컨테이너를 꽉 채우도록 설정 */
+  object-fit: cover;
 }
 
 .noImage {
@@ -44,9 +42,8 @@
 
 .cardContent {
   padding: 1.25rem;
-  flex: 1;
-  display: flex;
-  flex-direction: column;
+  display: block;
+  width: 100%;
 }
 
 .cardTitle {
@@ -55,11 +52,7 @@
   margin-bottom: 0.75rem;
   line-height: 1.4;
   color: var(--text-color);
-  height: 3em; /* 제목 높이를 약 2줄로 고정 */
-  overflow: hidden; /* 넘치는 텍스트 숨김 */
-  display: -webkit-box;
-  -webkit-line-clamp: 2; /* 최대 2줄까지 표시 */
-  -webkit-box-orient: vertical;
+  width: 100%;
 }
 
 .cardMeta {
@@ -67,6 +60,7 @@
   align-items: center;
   font-size: 0.85rem;
   color: var(--text-light);
+  width: 100%;
 }
 
 .author, .date {
@@ -77,14 +71,9 @@
   margin: 0 0.5rem;
 }
 
-/* 자세히 보기 삭제로 인한 스타일 제거 */
-.readMore {
-  display: none;
-}
-
 @media (max-width: 768px) {
   .imageContainer {
-    height: 180px; /* 모바일에서는 약간 낮은 높이로 조정 */
+    height: 180px;
   }
   
   .cardTitle {
