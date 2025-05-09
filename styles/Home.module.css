@@ -27,7 +27,8 @@
 
 .grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  /* 동일한 너비의 열을 생성 - auto-fill 대신 고정 열 수 사용 */
+  grid-template-columns: repeat(3, 1fr); /* 3개의 열로 수정 */
   gap: 2rem;
   margin-bottom: 3rem;
 }
@@ -67,14 +68,13 @@
   }
   
   .grid {
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-    gap: 1.5rem;
+    grid-template-columns: repeat(2, 1fr); /* 태블릿에서는 2개 열 */
   }
 }
 
 @media (max-width: 576px) {
   .grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr; /* 모바일에서는 1개 열 */
   }
   
   .sectionTitle {
