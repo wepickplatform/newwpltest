@@ -4,7 +4,8 @@
   overflow: hidden;
   box-shadow: none;
   background: var(--background-color);
-  height: 100%;
+  height: 100%; /* 높이는 100% 유지 */
+  width: 100%; /* 너비도 100% 유지 */
   display: flex;
   border: 1px solid var(--border-color);
 }
@@ -54,6 +55,11 @@
   margin-bottom: 0.75rem;
   line-height: 1.4;
   color: var(--text-color);
+  height: 3em; /* 제목 높이를 약 2줄로 고정 */
+  overflow: hidden; /* 넘치는 텍스트 숨김 */
+  display: -webkit-box;
+  -webkit-line-clamp: 2; /* 최대 2줄까지 표시 */
+  -webkit-box-orient: vertical;
 }
 
 .cardMeta {
