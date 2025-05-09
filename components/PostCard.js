@@ -19,19 +19,15 @@ export default function PostCard({ post }) {
     <article className={styles.card}>
       <Link href={`/post/${post.slug}`}>
         <a className={styles.cardLink}>
-          <div className={styles.cardMedia}>
+          <div className={styles.imageContainer}>
             {imageUrl ? (
-              <div className={styles.imageContainer}>
-                <Image
-                  src={imageUrl}
-                  alt={post.title.rendered}
-                  width={400}
-                  height={225}
-                  layout="responsive"
-                  objectFit="cover"
-                  className={styles.image}
-                />
-              </div>
+              <Image
+                src={imageUrl}
+                alt={post.title.rendered}
+                layout="fill"
+                objectFit="cover"
+                className={styles.image}
+              />
             ) : (
               <div className={styles.noImage}>
                 <span className={styles.noImageText}>이미지 없음</span>
@@ -52,8 +48,6 @@ export default function PostCard({ post }) {
               {author && <span className={styles.metaSeparator}>·</span>}
               <span className={styles.date}>{formattedDate}</span>
             </div>
-            
-            {/* "자세히 보기" 텍스트 삭제 */}
           </div>
         </a>
       </Link>
