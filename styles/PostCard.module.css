@@ -17,44 +17,26 @@
   text-decoration: none;
 }
 
-.cardMedia {
-  position: relative;
-  width: 100%;
-}
-
 .imageContainer {
-  width: 100%;
   position: relative;
-  /* 이미지 비율 고정을 위한 패딩 */
-  height: 0;
-  padding-bottom: 56.25%; /* 16:9 비율 고정 */
-  overflow: hidden;
+  width: 100%;
+  height: 220px; /* 모든 이미지 높이를 동일하게 고정 */
 }
 
 .image {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+  object-fit: cover; /* 이미지가 컨테이너를 꽉 채우도록 설정 */
 }
 
 .noImage {
   width: 100%;
-  height: 0;
-  padding-bottom: 56.25%; /* 16:9 비율로 높이 고정 */
+  height: 100%;
   background-color: var(--secondary-color);
   display: flex;
   align-items: center;
   justify-content: center;
-  position: relative;
 }
 
 .noImageText {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
   color: var(--text-light);
   font-size: 0.9rem;
 }
@@ -95,6 +77,10 @@
 }
 
 @media (max-width: 768px) {
+  .imageContainer {
+    height: 180px; /* 모바일에서는 약간 낮은 높이로 조정 */
+  }
+  
   .cardTitle {
     font-size: 1rem;
   }
