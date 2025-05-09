@@ -1,7 +1,7 @@
 // components/Header.js
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import Image from 'next/image'; // 이미지 임포트 추가
+import Image from 'next/image';
 import { getCategories } from '../lib/api';
 import { useAuth } from '../lib/auth';
 import styles from '../styles/Header.module.css';
@@ -9,6 +9,7 @@ import styles from '../styles/Header.module.css';
 export default function Header() {
   const [categories, setCategories] = useState([]);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
   const { isAuthenticated, user, logout, loading } = useAuth();
   
   useEffect(() => {
@@ -22,10 +23,22 @@ export default function Header() {
     }
     
     loadCategories();
+    
+    // 스크롤 이벤트 리스너 추가
+    const handleScroll = () => {
+      if (window.scrollY > 10) {
+        setIsScrolled(true);
+      } else {
+        setIsScrolled(false);
+      }
+    };
+    
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
   }, []);
   
   return (
-    <header className={styles.header}>
+    <header className={`${styles.header} ${isScrolled ? styles.scrolled : ''}`}>
       <div className={styles.headerContainer}>
         <div className={styles.logo}>
           <Link href="/">
@@ -82,7 +95,7 @@ export default function Header() {
             onClick={() => setMenuOpen(!menuOpen)}
             aria-label="메뉴 열기"
           >
-            <span className={styles.menuIcon}></span>
+            <span className={`${styles.menuIcon} ${menuOpen ? styles.active : ''}`}></span>
           </button>
         </div>
       </div>
@@ -102,6 +115,17 @@ export default function Header() {
               </Link>
             </li>
           ))}
+          <li className={styles.mobileNavItem}>
+            {isAuthenticated ? (
+              <button onClick={logout} className={styles.mobileLogoutButton}>
+                로그아웃
+              </button>
+            ) : (
+              <Link href="/login">
+                <a className={styles.mobileLoginButton}>로그인</a>
+              </Link>
+            )}
+          </li>
         </ul>
       </div>
     </header>
