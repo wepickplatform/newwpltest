@@ -1,4 +1,4 @@
-// components/PostCard.js
+// components/PostCard.js - 설명 부분 제거
 import Link from 'next/link';
 import Image from 'next/image';
 import moment from 'moment';
@@ -55,10 +55,7 @@ export default function PostCard({ post }) {
               </span>
             </div>
             
-            <div 
-              className={styles.cardExcerpt}
-              dangerouslySetInnerHTML={{ __html: post.excerpt.rendered }}
-            />
+            {/* 설명(excerpt) 부분 제거 */}
             
             <span className={styles.readMore}>
               자세히 보기 <span className={styles.arrow}>→</span>
