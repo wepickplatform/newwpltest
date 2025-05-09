@@ -13,7 +13,7 @@
   margin: 0 auto;
   padding: 2rem 1.5rem;
   background-color: var(--background-color);
-  box-shadow: var(--card-shadow);
+  box-shadow: none; /* 그림자 제거 */
   border-radius: 0 0 var(--border-radius) var(--border-radius);
 }
 
